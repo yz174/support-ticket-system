@@ -212,9 +212,9 @@ python manage.py test
 ## Technologies Used
 
 - **Backend**: Django 5.0, Django REST Framework, PostgreSQL, psycopg3
-- **Frontend**: React 18, Vite, Axios
-- **LLM**: Google Gemini API (gemini-pro model)
+- **Frontend**: React 18, Vite, Axios, Tailwind CSS
+- **LLM**: Google Gemini API (gemini-1.5-flash model)
 - **Infrastructure**: Docker, Docker Compose
-- **Styling**: Custom CSS with modern dark theme
+- **Styling**: Tailwind CSS with custom dark theme
 
 
