@@ -27,56 +27,64 @@ const StatsBoard = ({ refreshTrigger }) => {
         fetchStats();
     }, [refreshTrigger]);
 
-    if (!stats) return <div className="text-center p-8">Loading stats...</div>;
+    if (!stats) return (
+        <div className="flex justify-center items-center py-20">
+            <div className="text-center">
+                <div className="w-12 h-12 border-4 border-border-subtle border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-gray-400">Loading stats...</p>
+            </div>
+        </div>
+    );
 
-    // Prepare data for charts
     const priorityData = Object.entries(stats.priority_breakdown).map(([name, value]) => ({ name, value }));
     const categoryData = Object.entries(stats.category_breakdown).map(([name, value]) => ({ name, value }));
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
     return (
-        <div className="stats-dashboard">
+        <div className="space-y-6 w-full">
             {/* Metrics Row */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
-                <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>TOTAL TICKETS</span>
-                    <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-main)' }}>{stats.total_tickets}</span>
-                    <span className="badge badge-green" style={{ width: 'fit-content' }}>+12% vs last week</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div className="bg-card-bg border border-border-subtle rounded-xl p-6 shadow-xl">
+                    <span className="text-gray-400 text-sm font-semibold uppercase tracking-wide">Total Tickets</span>
+                    <div className="text-4xl font-extrabold mt-2 mb-3">{stats.total_tickets}</div>
+                    <span className="inline-block px-2.5 py-1 bg-green-500/15 text-green-400 border border-green-500/20 rounded-full text-xs font-semibold">
+                        +12% vs last week
+                    </span>
                 </div>
 
-                <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>OPEN TICKETS</span>
-                    <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--warning)' }}>{stats.open_tickets}</span>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Requires attention</span>
+                <div className="bg-card-bg border border-border-subtle rounded-xl p-6 shadow-xl">
+                    <span className="text-gray-400 text-sm font-semibold uppercase tracking-wide">Open Tickets</span>
+                    <div className="text-4xl font-extrabold mt-2 mb-3 text-yellow-500">{stats.open_tickets}</div>
+                    <span className="text-sm text-gray-400">Requires attention</span>
                 </div>
 
-                <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>AVG RESOLUTION</span>
-                    <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--info)' }}>4.2h</span>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Ticket lifetime</span>
+                <div className="bg-card-bg border border-border-subtle rounded-xl p-6 shadow-xl">
+                    <span className="text-gray-400 text-sm font-semibold uppercase tracking-wide">Avg Resolution</span>
+                    <div className="text-4xl font-extrabold mt-2 mb-3 text-blue-500">4.2h</div>
+                    <span className="text-sm text-gray-400">Ticket lifetime</span>
                 </div>
             </div>
 
             {/* Charts Row */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem' }}>
-                <div className="card" style={{ height: '350px' }}>
-                    <h3 style={{ marginBottom: '1.5rem', fontSize: '1.1rem' }}>Tickets by Priority</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+                <div className="bg-card-bg border border-border-subtle rounded-xl p-6 shadow-xl" style={{ height: '350px' }}>
+                    <h3 className="text-lg font-bold mb-6">Tickets by Priority</h3>
                     <ResponsiveContainer width="100%" height="85%">
                         <BarChart data={priorityData}>
-                            <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={12} />
-                            <YAxis stroke="var(--text-muted)" fontSize={12} />
+                            <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} />
+                            <YAxis stroke="#94a3b8" fontSize={12} />
                             <Tooltip
-                                contentStyle={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-subtle)', color: 'var(--text-main)' }}
-                                itemStyle={{ color: 'var(--text-main)' }}
+                                contentStyle={{ backgroundColor: '#161b2e', borderColor: '#1f2937', color: '#fff' }}
+                                itemStyle={{ color: '#fff' }}
                             />
-                            <Bar dataKey="value" fill="var(--primary)" radius={[4, 4, 0, 0]} />
+                            <Bar dataKey="value" fill="#135bec" radius={[4, 4, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
 
-                <div className="card" style={{ height: '350px' }}>
-                    <h3 style={{ marginBottom: '1.5rem', fontSize: '1.1rem' }}>Tickets by Category</h3>
+                <div className="bg-card-bg border border-border-subtle rounded-xl p-6 shadow-xl" style={{ height: '350px' }}>
+                    <h3 className="text-lg font-bold mb-6">Tickets by Category</h3>
                     <ResponsiveContainer width="100%" height="85%">
                         <PieChart>
                             <Pie
@@ -93,8 +101,8 @@ const StatsBoard = ({ refreshTrigger }) => {
                                 ))}
                             </Pie>
                             <Tooltip
-                                contentStyle={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-subtle)', color: 'var(--text-main)' }}
-                                itemStyle={{ color: 'var(--text-main)' }}
+                                contentStyle={{ backgroundColor: '#161b2e', borderColor: '#1f2937', color: '#fff' }}
+                                itemStyle={{ color: '#fff' }}
                             />
                         </PieChart>
                     </ResponsiveContainer>

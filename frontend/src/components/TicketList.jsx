@@ -26,7 +26,7 @@ const TicketList = () => {
 
     useEffect(() => {
         fetchTickets();
-    }, [filterStatus, filterPriority]); // Re-fetch when filters change
+    }, [filterStatus, filterPriority]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -35,51 +35,60 @@ const TicketList = () => {
 
     const getPriorityColor = (p) => {
         switch (p) {
-            case 'critical': return 'badge-red';
-            case 'high': return 'badge-red';
-            case 'medium': return 'badge-yellow';
-            case 'low': return 'badge-blue';
-            default: return 'badge-blue';
+            case 'critical':
+            case 'high':
+                return 'bg-red-500/15 text-red-400 border-red-500/20';
+            case 'medium':
+                return 'bg-yellow-500/15 text-yellow-400 border-yellow-500/20';
+            case 'low':
+                return 'bg-blue-500/15 text-blue-400 border-blue-500/20';
+            default:
+                return 'bg-blue-500/15 text-blue-400 border-blue-500/20';
         }
     };
 
     const getStatusColor = (s) => {
         switch (s) {
-            case 'open': return 'badge-green';
-            case 'in_progress': return 'badge-yellow';
-            case 'resolved': return 'badge-blue';
-            case 'closed': return 'badge-purple';
-            default: return 'badge-blue';
+            case 'open':
+                return 'bg-green-500/15 text-green-400 border-green-500/20';
+            case 'in_progress':
+                return 'bg-yellow-500/15 text-yellow-400 border-yellow-500/20';
+            case 'resolved':
+                return 'bg-blue-500/15 text-blue-400 border-blue-500/20';
+            case 'closed':
+                return 'bg-purple-500/15 text-purple-400 border-purple-500/20';
+            default:
+                return 'bg-blue-500/15 text-blue-400 border-blue-500/20';
         }
     };
 
     return (
-        <div className="ticket-dashboard">
-            <div className="card mb-6" style={{ marginBottom: '1.5rem' }}>
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <form onSubmit={handleSearch} style={{ flex: 1, minWidth: '250px' }}>
-                        <div style={{ position: 'relative' }}>
+        <div className="space-y-6 w-full max-w-6xl mx-auto">
+            {/* Filters Card */}
+            <div className="bg-card-bg border border-border-subtle rounded-xl p-4 shadow-xl">
+                <div className="flex flex-wrap gap-4 items-center">
+                    <form onSubmit={handleSearch} className="flex-1 min-w-[250px]">
+                        <div className="relative">
                             <input
                                 type="text"
                                 placeholder="Search tickets..."
-                                className="premium-input"
-                                style={{ paddingLeft: '2.5rem' }}
+                                className="w-full bg-input-bg border border-border-subtle text-white pl-10 pr-4 py-2.5 rounded-lg transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                             <svg
-                                style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '18px', height: '18px', color: 'var(--text-muted)' }}
+                                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                             >
-                                <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                             </svg>
                         </div>
                     </form>
 
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div className="flex gap-2">
                         <select
-                            className="premium-input"
-                            style={{ width: 'auto' }}
+                            className="bg-input-bg border border-border-subtle text-white px-4 py-2.5 rounded-lg transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
                         >
@@ -91,8 +100,7 @@ const TicketList = () => {
                         </select>
 
                         <select
-                            className="premium-input"
-                            style={{ width: 'auto' }}
+                            className="bg-input-bg border border-border-subtle text-white px-4 py-2.5 rounded-lg transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                             value={filterPriority}
                             onChange={(e) => setFilterPriority(e.target.value)}
                         >
@@ -106,59 +114,61 @@ const TicketList = () => {
                 </div>
             </div>
 
+            {/* Tickets Table */}
             {loading ? (
-                <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>
-                    <div style={{ width: '30px', height: '30px', border: '3px solid var(--border-subtle)', borderTopColor: 'var(--primary)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-                    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                <div className="flex justify-center py-12">
+                    <div className="w-8 h-8 border-3 border-border-subtle border-t-primary rounded-full animate-spin"></div>
                 </div>
             ) : tickets.length === 0 ? (
-                <div className="card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>📭</div>
-                    <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>No tickets found</h3>
-                    <p style={{ color: 'var(--text-muted)' }}>Try adjusting your filters or create a new ticket.</p>
+                <div className="bg-card-bg border border-border-subtle rounded-xl p-16 text-center shadow-xl">
+                    <div className="text-5xl mb-4 opacity-50">📭</div>
+                    <h3 className="text-xl font-bold mb-2">No tickets found</h3>
+                    <p className="text-gray-400">Try adjusting your filters or create a new ticket.</p>
                 </div>
             ) : (
-                <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                        <thead style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--border-subtle)' }}>
+                <div className="bg-card-bg border border-border-subtle rounded-xl overflow-hidden shadow-xl">
+                    <table className="w-full">
+                        <thead className="bg-white/5 border-b border-border-subtle">
                             <tr>
-                                <th style={{ padding: '1rem', textAlign: 'left', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>TICKET</th>
-                                <th style={{ padding: '1rem', textAlign: 'left', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>CATEGORY</th>
-                                <th style={{ padding: '1rem', textAlign: 'left', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>STATUS</th>
-                                <th style={{ padding: '1rem', textAlign: 'left', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>PRIORITY</th>
-                                <th style={{ padding: '1rem', textAlign: 'right', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>DATE</th>
+                                <th className="px-4 py-4 text-left text-gray-400 text-xs font-semibold uppercase tracking-wider">Ticket</th>
+                                <th className="px-4 py-4 text-left text-gray-400 text-xs font-semibold uppercase tracking-wider">Category</th>
+                                <th className="px-4 py-4 text-left text-gray-400 text-xs font-semibold uppercase tracking-wider">Status</th>
+                                <th className="px-4 py-4 text-left text-gray-400 text-xs font-semibold uppercase tracking-wider">Priority</th>
+                                <th className="px-4 py-4 text-right text-gray-400 text-xs font-semibold uppercase tracking-wider">Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             {tickets.map(ticket => (
-                                <tr key={ticket.id} style={{ borderBottom: '1px solid var(--border-subtle)', transition: 'background-color 0.2s' }} className="hover:bg-white/5">
-                                    <td style={{ padding: '1rem' }}>
-                                        <div style={{ fontWeight: 600, marginBottom: '2px' }}>{ticket.title}</div>
-                                        <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', maxWidth: '400px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                <tr key={ticket.id} className="border-b border-border-subtle hover:bg-white/5 transition-colors">
+                                    <td className="px-4 py-4">
+                                        <div className="font-semibold mb-0.5">{ticket.title}</div>
+                                        <div className="text-sm text-gray-400 max-w-md truncate">
                                             {ticket.description}
                                         </div>
                                     </td>
-                                    <td style={{ padding: '1rem' }}>
-                                        <span style={{ fontSize: '0.9rem', color: 'var(--text-subtle)' }}>{ticket.category?.replace('_', ' ') || '-'}</span>
+                                    <td className="px-4 py-4">
+                                        <span className="text-sm text-gray-400 capitalize">
+                                            {ticket.category?.replace('_', ' ') || '-'}
+                                        </span>
                                     </td>
-                                    <td style={{ padding: '1rem' }}>
-                                        <span className={`badge ${getStatusColor(ticket.status)}`}>
+                                    <td className="px-4 py-4">
+                                        <span className={`inline-block px-2.5 py-1 border rounded-full text-xs font-semibold uppercase tracking-wide ${getStatusColor(ticket.status)}`}>
                                             {ticket.status?.replace('_', ' ')}
                                         </span>
                                     </td>
-                                    <td style={{ padding: '1rem' }}>
-                                        <span className={`badge ${getPriorityColor(ticket.priority)}`}>
+                                    <td className="px-4 py-4">
+                                        <span className={`inline-block px-2.5 py-1 border rounded-full text-xs font-semibold uppercase tracking-wide ${getPriorityColor(ticket.priority)}`}>
                                             {ticket.priority}
                                         </span>
                                     </td>
-                                    <td style={{ padding: '1rem', textAlign: 'right', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                                    <td className="px-4 py-4 text-right text-sm text-gray-400">
                                         {new Date(ticket.created_at).toLocaleDateString()}
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <div style={{ padding: '1rem', borderTop: '1px solid var(--border-subtle)', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                    <div className="px-4 py-3 border-t border-border-subtle text-center text-gray-400 text-sm">
                         Showing {tickets.length} results
                     </div>
                 </div>
