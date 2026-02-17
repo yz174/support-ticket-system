@@ -6,7 +6,6 @@ import StatsBoard from './components/StatsBoard';
 import './App.css';
 
 function App() {
-  // 'dashboard', 'tickets', 'create', 'ai-triage', 'settings'
   const [activeView, setActiveView] = useState('dashboard');
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
@@ -19,25 +18,26 @@ function App() {
     switch (activeView) {
       case 'create':
         return (
-          <div className="fade-in">
-            <header className="page-header">
-              <div className="page-title">
-                <h1>Create New Ticket</h1>
-                <p className="page-subtitle">Describe your issue and let our AI assist you</p>
-              </div>
+          <div className="animate-fadeIn w-full">
+            <header className="mb-8 text-center">
+              <h1 className="text-3xl font-bold mb-2">Create New Ticket</h1>
+              <p className="text-gray-400">Describe your issue and let our AI assist you</p>
             </header>
             <TicketForm onSuccess={handleTicketCreated} />
           </div>
         );
       case 'dashboard':
         return (
-          <div className="fade-in">
-            <header className="page-header">
-              <div className="page-title">
-                <h1>Analytics Dashboard</h1>
-                <p className="page-subtitle">Overview of support performance and metrics</p>
+          <div className="animate-fadeIn w-full">
+            <header className="mb-8 flex justify-between items-center">
+              <div>
+                <h1 className="text-3xl font-bold mb-1">Analytics Dashboard</h1>
+                <p className="text-gray-400">Overview of support performance and metrics</p>
               </div>
-              <button className="btn-primary" onClick={() => setActiveView('create')}>
+              <button
+                onClick={() => setActiveView('create')}
+                className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-lg font-semibold transition-all hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5"
+              >
                 + New Ticket
               </button>
             </header>
@@ -46,13 +46,16 @@ function App() {
         );
       case 'tickets':
         return (
-          <div className="fade-in">
-            <header className="page-header">
-              <div className="page-title">
-                <h1>All Tickets</h1>
-                <p className="page-subtitle">Manage and track support requests</p>
+          <div className="animate-fadeIn w-full">
+            <header className="mb-8 flex justify-between items-center">
+              <div>
+                <h1 className="text-3xl font-bold mb-1">All Tickets</h1>
+                <p className="text-gray-400">Manage and track support requests</p>
               </div>
-              <button className="btn-primary" onClick={() => setActiveView('create')}>
+              <button
+                onClick={() => setActiveView('create')}
+                className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-lg font-semibold transition-all hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5"
+              >
                 + New Ticket
               </button>
             </header>
@@ -62,10 +65,12 @@ function App() {
       case 'ai-triage':
       case 'settings':
         return (
-          <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', color: 'var(--text-muted)' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🚧</div>
-            <h2>Coming Soon</h2>
-            <p>This module is under development.</p>
+          <div className="animate-fadeIn flex flex-col items-center justify-center h-[60vh] text-gray-400 w-full">
+            <div className="max-w-md text-center">
+              <div className="text-6xl mb-6">🚧</div>
+              <h2 className="text-2xl font-bold text-white mb-2">Coming Soon</h2>
+              <p className="text-gray-400">This module is under development.</p>
+            </div>
           </div>
         );
       default:
@@ -74,10 +79,12 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
-      <main className="app-content">
-        {renderContent()}
+      <main className="flex-1 overflow-y-auto p-8 flex justify-center">
+        <div className="w-full max-w-7xl">
+          {renderContent()}
+        </div>
       </main>
     </div>
   );
