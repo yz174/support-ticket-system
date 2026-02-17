@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getTickets } from '../services/api';
+import { getTickets, updateTicket } from '../services/api';
 
 const TicketList = () => {
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filterStatus, setFilterStatus] = useState('');
     const [filterPriority, setFilterPriority] = useState('');
+    const [filterCategory, setFilterCategory] = useState('');
     const [search, setSearch] = useState('');
 
     const fetchTickets = async () => {
@@ -14,6 +15,7 @@ const TicketList = () => {
             const data = await getTickets({
                 status: filterStatus,
                 priority: filterPriority,
+                category: filterCategory,
                 search: search
             });
             setTickets(data);
@@ -26,7 +28,7 @@ const TicketList = () => {
 
     useEffect(() => {
         fetchTickets();
-    }, [filterStatus, filterPriority]);
+    }, [filterStatus, filterPriority, filterCategory]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -62,6 +64,21 @@ const TicketList = () => {
         }
     };
 
+    const handleStatusClick = async (ticketId, currentStatus) => {
+        const statuses = ['open', 'in_progress', 'resolved', 'closed'];
+        const currentIndex = statuses.indexOf(currentStatus);
+        const nextStatus = statuses[(currentIndex + 1) % statuses.length];
+        
+        try {
+            await updateTicket(ticketId, { status: nextStatus });
+            // Refresh the ticket list
+            fetchTickets();
+        } catch (error) {
+            console.error('Failed to update ticket status', error);
+            alert('Failed to update ticket status');
+        }
+    };
+
     return (
         <div className="space-y-6 w-full max-w-6xl mx-auto">
             {/* Filters Card */}
@@ -87,6 +104,18 @@ const TicketList = () => {
                     </form>
 
                     <div className="flex gap-2">
+                        <select
+                            className="bg-input-bg border border-border-subtle text-white px-4 py-2.5 rounded-lg transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                            value={filterCategory}
+                            onChange={(e) => setFilterCategory(e.target.value)}
+                        >
+                            <option value="">Category: All</option>
+                            <option value="general">General</option>
+                            <option value="technical">Technical</option>
+                            <option value="billing">Billing</option>
+                            <option value="account">Account</option>
+                        </select>
+
                         <select
                             className="bg-input-bg border border-border-subtle text-white px-4 py-2.5 rounded-lg transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                             value={filterStatus}
@@ -152,9 +181,13 @@ const TicketList = () => {
                                         </span>
                                     </td>
                                     <td className="px-4 py-4">
-                                        <span className={`inline-block px-2.5 py-1 border rounded-full text-xs font-semibold uppercase tracking-wide ${getStatusColor(ticket.status)}`}>
+                                        <button
+                                            onClick={() => handleStatusClick(ticket.id, ticket.status)}
+                                            className={`inline-block px-2.5 py-1 border rounded-full text-xs font-semibold uppercase tracking-wide cursor-pointer hover:opacity-80 transition-opacity ${getStatusColor(ticket.status)}`}
+                                            title="Click to change status"
+                                        >
                                             {ticket.status?.replace('_', ' ')}
-                                        </span>
+                                        </button>
                                     </td>
                                     <td className="px-4 py-4">
                                         <span className={`inline-block px-2.5 py-1 border rounded-full text-xs font-semibold uppercase tracking-wide ${getPriorityColor(ticket.priority)}`}>

@@ -60,9 +60,9 @@ const StatsBoard = ({ refreshTrigger }) => {
                 </div>
 
                 <div className="bg-card-bg border border-border-subtle rounded-xl p-6 shadow-xl">
-                    <span className="text-gray-400 text-sm font-semibold uppercase tracking-wide">Avg Resolution</span>
-                    <div className="text-4xl font-extrabold mt-2 mb-3 text-blue-500">4.2h</div>
-                    <span className="text-sm text-gray-400">Ticket lifetime</span>
+                    <span className="text-gray-400 text-sm font-semibold uppercase tracking-wide">Avg Per Day</span>
+                    <div className="text-4xl font-extrabold mt-2 mb-3 text-blue-500">{stats.avg_tickets_per_day?.toFixed(1)}</div>
+                    <span className="text-sm text-gray-400">Tickets per day</span>
                 </div>
             </div>
 

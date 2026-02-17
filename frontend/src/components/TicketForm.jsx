@@ -41,6 +41,14 @@ const TicketForm = ({ onSuccess }) => {
         setLoading(true);
         try {
             await createTicket(formData);
+            // Clear form on success
+            setFormData({
+                title: '',
+                description: '',
+                category: 'general',
+                priority: 'medium'
+            });
+            setAiSuggestions(null);
             onSuccess();
         } catch (error) {
             console.error("Failed to create ticket", error);
@@ -64,6 +72,7 @@ const TicketForm = ({ onSuccess }) => {
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                             required
+                            maxLength={200}
                             placeholder="e.g., Cannot access VPN"
                         />
                     </div>
