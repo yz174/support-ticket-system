@@ -7,10 +7,10 @@ router = DefaultRouter()
 router.register(r'tickets', TicketViewSet, basename='ticket')
 
 urlpatterns = [
-    # ViewSet routes (list, create, retrieve, update, destroy)
-    path('', include(router.urls)),
-    
-    # Custom endpoints
+    # Custom endpoints MUST come before router.urls to avoid conflicts
     path('tickets/stats/', StatsView.as_view(), name='ticket-stats'),
     path('tickets/classify/', ClassifyView.as_view(), name='ticket-classify'),
+    
+    # ViewSet routes (list, create, retrieve, update, destroy)
+    path('', include(router.urls)),
 ]

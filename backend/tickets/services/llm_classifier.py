@@ -60,8 +60,9 @@ Guidelines:
         
         try:
             genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-pro')
-            logger.info("Gemini LLM classifier initialized successfully.")
+            # Use gemini-1.5-flash for faster responses, or gemini-1.5-pro for better accuracy
+            self.model = genai.GenerativeModel('gemini-2.5-flash')
+            logger.info("Gemini LLM classifier initialized successfully with gemini-2.5-flash.")
         except Exception as e:
             logger.error(f"Failed to initialize Gemini API: {e}")
             self.model = None
