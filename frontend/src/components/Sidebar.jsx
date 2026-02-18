@@ -13,8 +13,6 @@ const Sidebar = ({ activeView, setActiveView }) => {
         { id: 'dashboard', label: 'Analytics', icon: DashboardIcon },
         { id: 'tickets', label: 'All Tickets', icon: TicketIcon },
         { id: 'create', label: 'Create Ticket', icon: PlusIcon },
-        { id: 'ai-triage', label: 'AI Triage', icon: BrainIcon },
-        { id: 'settings', label: 'Settings', icon: SettingsIcon },
     ];
 
     return (

@@ -163,24 +163,10 @@ const TicketForm = ({ onSuccess }) => {
                                 {aiSuggestions.priority || formData.priority}
                             </span>
                         </div>
-
-                        <div className="p-4 bg-white/5 rounded-lg border border-border-subtle">
-                            <div className="flex gap-2 mb-2 text-white text-sm font-semibold">
-                                <span>📚</span> Related Articles
-                            </div>
-                            <ul className="space-y-1.5 text-sm text-gray-400">
-                                <li className="cursor-pointer hover:text-primary transition-colors underline">
-                                    Troubleshooting {formData.category} issues
-                                </li>
-                                <li className="cursor-pointer hover:text-primary transition-colors underline">
-                                    Common {formData.priority} fixes
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 ) : (
                     <p className="text-sm text-gray-400 leading-relaxed">
-                        Start typing your description to see AI-powered suggestions and relevant articles automatically.
+                        Start typing your description to see AI-powered category and priority suggestions automatically.
                     </p>
                 )}
             </div>
