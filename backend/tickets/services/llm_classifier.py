@@ -51,11 +51,11 @@ PRIORITY GUIDELINES:
   Examples: "entire system is down", "data breach detected", "payment gateway offline"
 
 • high: Core functionality broken, blocking critical work, user completely unable to perform key tasks, bugs affecting production
-  Indicators: "bug", "broken", "can't", "unable to", "blocking", "urgent", "asap", "critical feature", "production issue"
+  Indicators:"broken", "can't", "unable to", "blocking", "urgent", "asap", "critical feature", "production issue"
   Examples: "can't submit orders", "bug on checkout page", "unable to access dashboard", "profile screen not loading"
   
 • medium: Feature not working as expected but workarounds exist, non-critical bugs, moderate inconvenience, delayed response acceptable
-  Indicators: "sometimes", "occasionally", "minor issue", "not working properly", "would like", "could you"
+  Indicators: "bug", "sometimes", "occasionally", "minor issue", "not working properly", "would like", "could you"
   Examples: "search is slow", "formatting looks off", "would like to change settings"
   
 • low: Cosmetic issues, minor annoyances, questions, enhancement requests, nice-to-have features, documentation requests
